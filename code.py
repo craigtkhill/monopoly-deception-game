@@ -9,9 +9,13 @@ MAX_PLAYERS = 8
 FLASH_DELAY = 0.1
 BUTTON_DEBOUNCE = 0.2
 GAME_DURATION = 3600  # Game duration in seconds (1 hour)
-START_INTERVAL = GAME_DURATION / NUM_ROUNDS  # Average interval for each round at the start
+START_INTERVAL = (
+    GAME_DURATION / NUM_ROUNDS
+)  # Average interval for each round at the start
 MIN_INTERVAL = START_INTERVAL / 2  # Minimum interval by the end of the game
-INTERVAL_DECREASE = (START_INTERVAL - MIN_INTERVAL) / NUM_ROUNDS  # Decrease interval each round
+INTERVAL_DECREASE = (
+    START_INTERVAL - MIN_INTERVAL
+) / NUM_ROUNDS  # Decrease interval each round
 
 # Colors for players
 ALL_COLORS = [
@@ -28,8 +32,10 @@ ALL_COLORS = [
 # Initialize brightness
 cp.pixels.brightness = BRIGHTNESS
 
+
 def play_tone(frequency, duration):
     cp.play_tone(frequency, duration)
+
 
 def display_colors():
     for i in range(num_players):
@@ -37,6 +43,7 @@ def display_colors():
     for i in range(num_players, len(cp.pixels)):
         cp.pixels[i] = (0, 0, 0)
     cp.pixels.show()
+
 
 def flash_color(color, times):
     for _ in range(times):
@@ -46,6 +53,7 @@ def flash_color(color, times):
         cp.pixels.fill((0, 0, 0))
         cp.pixels.show()
         time.sleep(FLASH_DELAY)
+
 
 # Main game loop
 while True:
@@ -83,7 +91,9 @@ while True:
             print("Game over, an hour has passed!")
             break
 
-        interval = max(MIN_INTERVAL, current_interval - current_round * INTERVAL_DECREASE)
+        interval = max(
+            MIN_INTERVAL, current_interval - current_round * INTERVAL_DECREASE
+        )
         color = random.choice(colors)
         round_colors.append(color)
 
@@ -115,13 +125,14 @@ while True:
                 round_colors = []
                 cp.pixels.fill((0, 0, 0))
                 cp.pixels.show()
-                
+
     # End of game or waiting to restart
-    cp.pixels.fill((255, 0, 0))  
+    cp.pixels.fill((255, 0, 0))
     cp.pixels.show()
     time.sleep(5)
     print("Press button A to restart the game.")
     while not cp.button_a:
-        time.sleep(0.1)  
-    cp.pixels.fill((0, 0, 0))
-    cp.pixels.show()
+        time.sleep(0.1)
+        cp.pixels.fill((0, 0, 0))
+        cp.pixels.show()
+        break
