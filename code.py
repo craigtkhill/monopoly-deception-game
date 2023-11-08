@@ -1,6 +1,8 @@
 from adafruit_circuitplayground import cp
 import random
 import time
+import board
+import digitalio
 
 # Constants
 BRIGHTNESS = 0.1
@@ -31,6 +33,14 @@ ALL_COLORS = [
 
 # Initialize brightness
 cp.pixels.brightness = BRIGHTNESS
+
+# Choose a GPIO pin for the button
+ex_button_pin = board.A3  # Change this to the pin you're using
+
+# Initialize the button as a digital input with a pull-up resistor
+ex_button = digitalio.DigitalInOut(ex_button_pin)
+ex_button.direction = digitalio.Direction.INPUT
+ex_button.pull = digitalio.Pull.UP
 
 
 def play_tone(frequency, duration):
@@ -119,7 +129,7 @@ while True:
                 print(f"Round {current_round} winner's color is {winning_color}!")
                 print("Flashing winning color until button press...")
 
-                while not cp.button_a and not cp.button_b:
+                while not ex_button.value:
                     flash_color(winning_color, 1)
 
                 round_colors = []
@@ -131,7 +141,7 @@ while True:
     cp.pixels.show()
     time.sleep(5)
     print("Press button A to restart the game.")
-    while not cp.button_a:
+    while not ex_button.value:
         time.sleep(0.1)
         cp.pixels.fill((0, 0, 0))
         cp.pixels.show()
