@@ -127,12 +127,11 @@ while True:
                 cp.pixels.show()
 
     # End of game or waiting to restart
-    cp.pixels.fill((255, 0, 0))
+    cp.pixels.fill((255, 0, 0))  # Red indicates game over
     cp.pixels.show()
     time.sleep(5)
     print("Press button A to restart the game.")
     while not cp.button_a:
-        time.sleep(0.1)
-        cp.pixels.fill((0, 0, 0))
-        cp.pixels.show()
-        break
+        time.sleep(0.1)  # Wait for button A press to restart the game
+    cp.pixels.fill((0, 0, 0))
+    cp.pixels.show()
